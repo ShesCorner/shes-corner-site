@@ -1088,13 +1088,13 @@
       </div>
       
   
-    <script>
+      <script>
         const API_BASE =
-  location.hostname.endsWith('github.io')   
-    ? 'https://shes-corner-orders-api.onrender.com/' // paste your Render URL
-    : ''; // local dev hits http://localhost:5000
-
-    </script>
+          location.hostname.includes('github.io')
+            ? 'https://shes-corner-orders-api.onrender.com' // your Render URL (no trailing /)
+            : '';
+      </script>
+      
     <script>
         // Mobile Navigation Toggle
         const hamburger = document.querySelector('.hamburger');
@@ -1678,28 +1678,30 @@ checkoutForm.addEventListener('submit', async (e) => {
   // If you already have the backend from earlier, this will notify you via WhatsApp/email.
   // If you don't have a backend yet, the catch() block will show a friendly error.
   try {
-    const res = await fetch(`${API_BASE}/api/orders`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+  const res = await fetch(`${API_BASE}/api/orders`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
 
-    if (!res.ok) throw new Error(`Server returned ${res.status}`);
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    throw new Error(`HTTP ${res.status} ${res.statusText} — ${errText}`);
+  }
 
-    // Success UX
-    closeCheckout();
-    showToast(
+  // Success UX
+  closeCheckout();
+  showToast(
     "Thanks for your order! We’ll contact you on your mobile shortly to arrange payment. If you don’t hear from us within 42 hours, please call or WhatsApp us at +91 72072 07850.",
     7000
-    );
-    // Clear cart & UI
-    cart = [];
-    updateCart();
+  );
 
-    // Close the cart sidebar
-    cartOverlay.classList.remove('active');
-    cartSidebar.classList.remove('active');
-  } catch (err) {
+  cart = [];
+  updateCart();
+  cartOverlay.classList.remove('active');
+  cartSidebar.classList.remove('active');
+
+}  catch (err) {
     console.error('Order submit failed:', err);
     showToast('Could not place your order. Please try again.');
     alert('Sorry, we could not place your order right now. Please try again or contact us at +91 63037 50780.');
@@ -1709,5 +1711,4 @@ checkoutForm.addEventListener('submit', async (e) => {
 
     </script>
 </body>
-
 </html>

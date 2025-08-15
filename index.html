@@ -1094,6 +1094,16 @@
             ? 'https://shes-corner-orders-api.onrender.com' // your Render URL (no trailing /)
             : '';
       </script>
+      <script>
+        window.addEventListener('load', () => {
+          console.log('API_BASE =', API_BASE);
+          fetch(`${API_BASE}/health`)
+            .then(r => r.json())
+            .then(d => console.log('health:', d))
+            .catch(e => console.error('health failed:', e));
+        });
+      </script>
+      
       
     <script>
         // Mobile Navigation Toggle

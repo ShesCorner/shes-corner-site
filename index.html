@@ -893,6 +893,25 @@
         .btn-secondary:hover { transform: translateY(-2px); }
         .form-error { color: #dc2626; font-size: .9rem; margin-top: -6px; }
 
+        .color-select {
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        }
+        .color-dropdown {
+        font-size: 0.9rem;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        background: #fff;
+        cursor: pointer;
+        }
+        .color-dropdown:focus {
+        outline: none;
+        border-color: #B97A5B;
+        }
+
+
     </style>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -1210,7 +1229,8 @@
                 oldPrice: 300.00,
                 category: "Scarfs",
                 image: "CottonScarfs.jpeg",
-                badge: "Popular"
+                badge: "Popular",
+                colors: ["Beige", "Black", "White", "Brown"]    
             },
             {
                 id: 7,
@@ -1246,7 +1266,7 @@
                 oldPrice: 80.00,
                 category: "Cones",
                 image: "Stencils.jpeg",
-                badge: "Popular"
+                badge: "Popular",
             },
             {
                 id: 11,
@@ -1273,6 +1293,122 @@
                 oldPrice: 60.00,
                 category: "Clips",
                 image: "Clip.jpeg",
+                badge: null,
+                colors: ["Beige", "Black", "White", "Brown"]
+            },
+            {
+                id: 14,
+                title: "Clips",
+                price: 20.00,
+                oldPrice: 30.00,
+                category: "Clips",
+                image: "Clip1.jpeg",
+                badge: null,
+                colors: ["Orange", "Sky Blue", "Pink", "Yellow", "Purple","Light Pink"]
+            },
+            {
+                id: 15,
+                title: "Clips",
+                price: 20.00,
+                oldPrice: 30.00,
+                category: "Clips",
+                image: "Clip2.jpeg",
+                badge: null,
+                colors: ["Gold", "Silver", "Light Pink", "Brown","Grey","Black"]
+            },
+            {
+                id: 16,
+                title: "Clips",
+                price: 30.00,
+                oldPrice: 50.00,
+                category: "Clips",
+                image: "Clips3.jpeg",
+                badge: null,
+                colors: ["White", "Sky Blue", "Yellow", "Purple","Orange","Dark Grey"]
+            },
+            {
+                id: 17,
+                title: "Clips",
+                price: 10.00,
+                oldPrice: 20.00,
+                category: "Clips",
+                image: "Clip4.jpeg",
+                badge: null,
+                colors: ["Yellow", "Pink", "Red", "Blue","Purple","Orange"]
+            },
+            {
+                id: 18,
+                title: "Clips",
+                price: 7.00,
+                category: "Clips",
+                image: "Clip5.jpeg",
+                badge: null,
+                colors: ["Orange", "Silver", "Gold", "Brown","Maroon","Dark Grey"]
+            },
+            {
+                id: 19,
+                title: "Clips",
+                price: 7.00,
+                category: "Clips",
+                image: "Clip6.jpeg",
+                badge: null,
+                colors: ["Orange", "Yellow","Brown"]
+            },
+            {
+                id: 20,
+                title: "Clips",
+                price: 35.00,
+                oldPrice: 55.00,
+                category: "Clips",
+                image: "Band.jpeg",
+                badge: null
+            },
+            {
+                id: 21,
+                title: "Small Clips",
+                price: 10.00,
+                category: "Clips",
+                image: "SmallClip1.jpeg",
+                badge: null
+            },
+            {
+                id: 22,
+                title: "Small Clips",
+                price: 10.00,
+                category: "Clips",
+                image: "SmallClip2.jpeg",
+                badge: null
+            },
+            {
+                id: 23,
+                title: "Small Clips",
+                price: 10.00,
+                category: "Clips",
+                image: "SmallClip3.jpeg",
+                badge: null
+            },
+            {
+                id: 24,
+                title: "Small Clips",
+                price: 10.00,
+                category: "Clips",
+                image: "SmallClip4.jpeg",
+                badge: null
+            },
+            {
+                id: 25,
+                title: "Small Clips",
+                price: 10.00,
+                category: "Clips",
+                image: "SmallClip5.jpeg",
+                badge: null
+            },
+            {
+                id: 25,
+                title: "Small Clips",
+                price: 10.00,
+                category: "Clips",
+                image: "SmallClip6.jpeg",
                 badge: null
             }
         ];
@@ -1293,18 +1429,33 @@
                         ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
                     </div>
                     <div class="product-info">
-                        <span class="product-category">${product.category}</span>
-                        <h3 class="product-title">${product.title}</h3>
-                        <div class="product-price">
-                            <div class="price">
-                                ₹${product.price.toFixed(2)}
-                                ${product.oldPrice ? `<del>₹${product.oldPrice.toFixed(2)}</del>` : ''}
+                    <span class="product-category">${product.category}</span>
+                    <h3 class="product-title">${product.title}</h3>
+
+                    ${
+                        (product.category === "Scarfs" || product.category === "Clips") && product.colors
+                        ? `
+                            <div class="color-select">
+                            <label style="font-size: 0.9rem; font-weight: 600;">Color:</label>
+                            <select class="color-dropdown" data-id="${product.id}" style="margin-left:6px; padding:5px 8px; border-radius:8px; border:1px solid #ddd;">
+                                ${product.colors.map(c => `<option value="${c}">${c}</option>`).join("")}
+                            </select>
                             </div>
-                            <div class="add-to-cart" data-id="${product.id}">
-                                <i class="fas fa-plus"></i>
-                            </div>
+                        `
+                        : ""
+                    }
+
+                    <div class="product-price" style="margin-top:10px;">
+                        <div class="price">
+                        ₹${product.price.toFixed(2)}
+                        ${product.oldPrice ? `<del>₹${product.oldPrice.toFixed(2)}</del>` : ''}
+                        </div>
+                        <div class="add-to-cart" data-id="${product.id}">
+                        <i class="fas fa-plus"></i>
                         </div>
                     </div>
+                    </div>
+
                 `;
                 
                 productsGrid.appendChild(productCard);
@@ -1370,26 +1521,37 @@
 
         // Add to Cart
         document.addEventListener('click', (e) => {
-            if (e.target.closest('.add-to-cart')) {
-                const addBtn = e.target.closest('.add-to-cart');
-                const productId = parseInt(addBtn.dataset.id);
-                const product = products.find(p => p.id === productId);
-                
-                // Check if product already in cart
-                const existingItem = cart.find(item => item.id === productId);
-                
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    cart.push({
-                        ...product,
-                        quantity: 1
-                    });
-                }
-                
-                updateCart();
-                showToast(`${product.title} added to cart`);
-            }
+        if (e.target.closest('.add-to-cart')) {
+        const addBtn = e.target.closest('.add-to-cart');
+        const productId = parseInt(addBtn.dataset.id);
+        const product = products.find(p => p.id === productId);
+
+        // 👇 NEW: Get selected color if applicable
+        let selectedColor = null;
+        const colorDropdown = document.querySelector(`.color-dropdown[data-id="${productId}"]`);
+        if (colorDropdown) {
+            selectedColor = colorDropdown.value;
+        }
+
+        // Check if product with same color already in cart
+        const existingItem = cart.find(
+            item => item.id === productId && item.color === selectedColor
+        );
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+            ...product,
+            quantity: 1,
+            color: selectedColor || null
+            });
+        }
+
+        updateCart();
+        showToast(`${product.title}${selectedColor ? " (" + selectedColor + ")" : ""} added to cart`);
+        }
+
             
             // Remove from cart
             if (e.target.closest('.cart-item-remove')) {
@@ -1437,7 +1599,9 @@ let updateCart = () => {
         <img src="${item.image}" alt="${item.title}">
       </div>
       <div class="cart-item-info">
-        <h4 class="cart-item-title">${item.title}</h4>
+        <h4 class="cart-item-title">
+        ${item.title}${item.color ? ` <span style="font-size:0.9rem; color:#6b7280;">(${item.color})</span>` : ""}
+        </h4>
         <div class="cart-item-price">${formatINR(item.price)} × ${item.quantity}</div>
         <div class="cart-item-remove" data-id="${item.id}">Remove</div>
       </div>
@@ -1564,7 +1728,9 @@ updateCart = () => {
         <img src="${item.image}" alt="${item.title}">
       </div>
       <div class="cart-item-info">
-        <h4 class="cart-item-title">${item.title}</h4>
+        <h4 class="cart-item-title">
+        ${item.title}${item.color ? ` <span style="font-size:0.9rem; color:#6b7280;">(${item.color})</span>` : ""}
+        </h4>
         <div class="cart-item-price">${formatINR(item.price)} × ${item.quantity}</div>
         <div class="cart-item-remove" data-id="${item.id}">Remove</div>
       </div>
@@ -1596,7 +1762,7 @@ const openCheckout = () => {
   let total = 0;
   cart.forEach(item => {
     const li = document.createElement('li');
-    li.innerHTML = `<span>${item.title} × ${item.quantity}</span><span>${formatINR(item.price * item.quantity)}</span>`;
+    li.innerHTML = `<span>${item.title}${item.color ? " (" + item.color + ")" : ""} × ${item.quantity}</span><span>${formatINR(item.price * item.quantity)}</span>`;
     orderSummaryList.appendChild(li);
     total += item.price * item.quantity;
   });
@@ -1755,7 +1921,6 @@ checkoutForm.addEventListener('submit', async (e) => {
     </script>
 </body>
 </html>
-
 
 
 

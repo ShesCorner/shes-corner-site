@@ -1554,14 +1554,14 @@
 
             
             // Remove from cart
-            if (e.target.closest('.cart-item-remove')) {
-                const removeBtn = e.target.closest('.cart-item-remove');
-                const productId = parseInt(removeBtn.dataset.id);
-                
-                cart = cart.filter(item => item.id !== productId);
-                updateCart();
-                showToast('Item removed from cart');
-            }
+        if (e.target.closest('.cart-item-remove')) {
+          const removeBtn = e.target.closest('.cart-item-remove');
+          const id = parseInt(removeBtn.dataset.id);
+          const color = removeBtn.dataset.color || null;
+          cart = cart.filter(item => !(item.id === id && (item.color || null) === color));
+          updateCart();
+          showToast('Item removed from cart');
+        }
         });
 
 
@@ -1603,7 +1603,7 @@ let updateCart = () => {
         ${item.title}${item.color ? ` <span style="font-size:0.9rem; color:#6b7280;">(${item.color})</span>` : ""}
         </h4>
         <div class="cart-item-price">${formatINR(item.price)} × ${item.quantity}</div>
-        <div class="cart-item-remove" data-id="${item.id}">Remove</div>
+        <div class="cart-item-remove" data-id="${item.id}" data-color="${item.color || ''}">Remove</div>
       </div>
     `;
     cartItems.appendChild(cartItem);
@@ -1934,6 +1934,7 @@ checkoutForm.addEventListener('submit', async (e) => {
     </script>
 </body>
 </html>
+
 
 
 

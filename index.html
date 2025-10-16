@@ -1864,7 +1864,13 @@ checkoutForm.addEventListener('submit', async (e) => {
   }
 
   const payload = {
-    items: cart.map(c => ({ id: c.id, title: c.title, price: c.price, qty: c.quantity })),
+    items: cart.map(c => ({
+      id: c.id,
+      title: c.title,
+      price: c.price,
+      qty: c.quantity,
+      ...(c.color ? { color: c.color } : {})   // 👈 include color if selected
+    })),
     totals: {
       currency: 'INR',
       subtotal: cart.reduce((t, i) => t + i.price * i.quantity, 0)
@@ -1928,6 +1934,7 @@ checkoutForm.addEventListener('submit', async (e) => {
     </script>
 </body>
 </html>
+
 
 
 

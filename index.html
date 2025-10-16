@@ -1912,8 +1912,15 @@ checkoutForm.addEventListener('submit', async (e) => {
 
 }  catch (err) {
     console.error('Order submit failed:', err);
-    showToast('Could not place your order. Please try again.');
-    alert('Sorry, we could not place your order right now. Please try again or contact us at +91 63037 50780.');
+     // If backend returned JSON with reason, show it
+   let msg = 'Order failed.';
+   if (err && err.message && err.message.startsWith('HTTP')) {
+     msg += '\n' + err.message;
+   }
+   // If you used step #1 (500 with {reason}), fetch API text first:
+   // Already handled in your improved fetch from my previous reply, but just in case:
+   alert(msg + '\n\nIf this keeps happening, contact us at +91 63037 50780.');
+   showToast('Could not place your order. Details in console.');
   }
 });
 
